@@ -1,0 +1,94 @@
+﻿@model IEnumerable<GioiThieuSanPham.Models.SanPham>
+
+@{
+    ViewBag.Title = "DanhSach";
+    Layout = "~/Views/Shared/layout.cshtml";
+}
+
+<h2>DanhSach</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TenSanPham)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GiaBanMoi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GiaBanCu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TomTat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BaiViet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HangSanXuat.TenHang)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenSanPham)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GiaBanMoi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GiaBanCu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TomTat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BaiViet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HangSanXuat.TenHang)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+@{ 
+    var db = new GioiThieuSanPham.Models.QuanLySanPhamEntities();
+    var ketQua5 = (from sp in db.SanPhams
+                   join hangSX in db.HangSanXuats on sp.idHang equals hangSX.ID
+                   select hangSX).Distinct().ToList();
+    <h4>danh sách hãng sản xuất</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>tên hãng</th>
+            </tr>
+        </thead>
+        <tbody>
+           @foreach (var item in ketQua5)
+           {
+               <tr>
+                   <th>
+                       @item.ID
+                   </th>
+                   <th>@item.TenHang</th>
+
+               </tr>
+            }
+        </tbody>
+    </table>
+   
+}

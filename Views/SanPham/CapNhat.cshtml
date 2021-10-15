@@ -1,0 +1,88 @@
+﻿@model GioiThieuSanPham.Models.SanPham
+
+@{
+    ViewBag.Title = "CapNhat";
+    Layout = "~/Views/Shared/layout.cshtml";
+}
+
+<h2>CapNhat</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>SanPham</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TenSanPham, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TenSanPham, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GiaBanMoi, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.GiaBanMoi, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+            @Html.ValidationMessageFor(model => model.GiaBanMoi, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.GiaBanCu, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.GiaBanCu, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.GiaBanCu, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TomTat, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TomTat, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TomTat, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BaiViet, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.BaiViet, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BaiViet, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.idHang, "idHang", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @{
+                GioiThieuSanPham.Models.QuanLySanPhamEntities db = new GioiThieuSanPham.Models.QuanLySanPhamEntities();
+                var hangs = db.HangSanXuats.ToList();
+                <select name="idHang">
+                    @foreach (var item in hangs)
+                    {
+                        <option value="@item.ID"@Html.Raw(item.ID==Model.idHang?"selected":"")>@item.TenHang</option>
+                    }
+                </select>
+            }
+            @*@Html.DropDownList("idHang", null, htmlAttributes: new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(model => model.idHang, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

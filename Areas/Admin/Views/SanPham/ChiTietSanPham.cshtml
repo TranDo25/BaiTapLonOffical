@@ -1,0 +1,57 @@
+﻿@using GioiThieuSanPham.Models;
+
+@model GioiThieuSanPham.Models.SanPham
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/layout-admin.cshtml";
+    GioiThieuSanPham.Models.QuanLySanPhamEntities db = new GioiThieuSanPham.Models.QuanLySanPhamEntities();
+    HangSanXuat hangSX = db.HangSanXuats.Find(Model.idHang);
+
+}
+
+@if (Model == null)
+{
+    <div class="center_title_bar">Sản phẩm không tồn tại</div>
+
+}
+else
+{
+    <div class="center_title_bar">@Model.TenSanPham</div>
+    <div class="prod_box_big">
+        <div class="center_prod_box_big">
+            <div class="product_img_big">
+                <a href="javascript:popImage('/Theme/images/big_pic.jpg','Some Title')" title="header=[Zoom] body=[&nbsp;] fade=[on]"><img src="~/Theme/images/taixuong.jpg" alt="" border="0" /></a>
+                <div class="thumbs"> <a href="#" title="header=[Thumb1] body=[&nbsp;] fade=[on]"><img src="/Theme/images/thumb1.jpg" alt="" border="0" /></a> <a href="#" title="header=[Thumb2] body=[&nbsp;] fade=[on]"><img src="/Theme/images/thumb2.jpg" alt="" border="0" /></a> <a href="#" title="header=[Thumb3] body=[&nbsp;] fade=[on]"><img src="/Theme/images/thumb1.jpg" alt="" border="0" /></a> </div>
+            </div>
+            <div class="details_big_box">
+                <div class="product_title_big">@Model.TenSanPham</div>
+                <div class="specifications">
+                    @*Số tháng bảo hành: <span class="blue">@Model.SoTHangBaoHanh tháng</span><br />*@
+                    Hãng sản xuất:
+                    @if (hangSX != null)
+                    {
+                        <span class="blue">@hangSX.TenHang</span>
+                    }
+                    <br />
+                    Mô tả thông tin :<span class="blue"> @Model.TomTat</span><br />
+                </div>
+                <div class="prod_price_big"><span class="reduce">@string.Format("{0:#,0}", Model.GiaBanCu) đ</span> <span class="price">@string.Format("{0:#,0}", Model.GiaBanMoi) đ</span></div>
+                <a href="~/SanPham/CapNhat?id=@Model.ID" class="prod_buy">Cập nhật</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="center_title_bar">Xem thêm</div>
+    for (int i = 0; i <= 11; i++)
+    {
+        <div class="prod_box">
+            <div class="center_prod_box">
+                <div class="product_title"><a href="#">Makita 156 MX-VL</a></div>
+                <div class="product_img"><a href="#"><img src="/Theme/images/p1.jpg" alt="" border="0" /></a></div>
+                <div class="prod_price"><span class="reduce">350$</span> <span class="price">270$</span></div>
+            </div>
+            <div class="prod_details_tab"> <a href="#" class="prod_buy">Thêm vào giỏ hàng</a> <a href="#" class="prod_details">Details</a> </div>
+        </div>
+    }
+}
+
